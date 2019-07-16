@@ -4,7 +4,7 @@ import axios from 'axios'
 /* 
     API endpoints 
 */
-// The current largest item id is at /v0/maxitem. You can walk backward from here to discover all items.
+// Stories, comments, jobs, Ask HNs and  polls
 export function getItem(id) {
   return axios
     .get(`/item/${id}.json`)
@@ -12,7 +12,6 @@ export function getItem(id) {
       return payload.data
     })
     .catch(err => {
-      // console.error('GET failed on getUser')
       return Promise.reject(err)
     })
 }
@@ -25,7 +24,18 @@ export function getTopStories() {
       return payload.data
     })
     .catch(err => {
-      // console.error('GET failed on getUser')
+      return Promise.reject(err)
+    })
+}
+
+// The current largest item id
+export function getMaxItem(id) {
+  return axios
+    .get(`/item/maxitem.json`)
+    .then(payload => {
+      return payload.data
+    })
+    .catch(err => {
       return Promise.reject(err)
     })
 }

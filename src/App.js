@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import './App.css'
 import { getTopStories, getItem } from './Api.js'
+import moment from 'moment'
 
 axios.defaults.baseURL = 'https://hacker-news.firebaseio.com/v0'
 // Expect all requests to be in JSON unless specified
@@ -46,7 +47,10 @@ export default class App extends React.Component {
                 <a href={item.url} rel="noopener noreferrer" target="_blank" className="HN-title">
                   {item.title}
                 </a>
-                <p className="HN-author">{item.by}</p>
+                <div className="Subtitle">
+                  <p className="HN-author">{item.by}</p>
+                  <p className="HN-time">{moment.unix(item.time).format('MMM-DD-YYYY')}</p>
+                </div>
               </div>
             ))}
           </div>
