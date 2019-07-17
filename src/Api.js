@@ -29,9 +29,9 @@ export function getTopStories() {
 }
 
 // The current largest item id
-export function getMaxItem(id) {
+export function getMaxItem() {
   return axios
-    .get(`/item/maxitem.json`)
+    .get(`/maxitem.json`)
     .then(payload => {
       return payload.data
     })

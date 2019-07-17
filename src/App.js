@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import './App.css'
-import { getTopStories, getItem } from './Api.js'
+import { getMaxItem, getItem } from './Api.js'
 import moment from 'moment'
 
 axios.defaults.baseURL = 'https://hacker-news.firebaseio.com/v0'
@@ -11,18 +11,43 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 export default class App extends React.Component {
   state = {
     items: [],
+    fetching: false,
   }
 
   componentDidMount() {
-    getTopStories().then(data => {
-      data.map(id =>
-        getItem(id).then(item => {
+    window.addEventListener('scroll', this.handleScroll)
+    getMaxItem().then(id => this.getItems(id))
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    )
+      return
+
+    console.log('scroll!', this.state.items[this.state.items.length - 1])
+    this.setState({ fetching: true })
+
+    this.getItems(this.state.items[this.state.items.length - 1].id - 1)
+  }
+
+  getItems = id => {
+    for (let index = 0; index < 250; index++) {
+      getItem(id - index).then(item => {
+        this.setState({ fetching: false })
+        // filter for only items that exist of type story and have a url
+        if (item && item.type === 'story' && !item.deleted && item.url) {
           this.setState(prevState => ({
-            items: prevState.items.concat(item),
+            items: [...prevState.items, item],
           }))
-        })
-      )
-    })
+        }
+      })
+    }
   }
 
   render() {
