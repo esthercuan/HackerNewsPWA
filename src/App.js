@@ -29,11 +29,10 @@ export default class App extends React.Component {
       document.documentElement.offsetHeight
     )
       return
-    console.log(this.state.fetching)
     if (this.state.fetching) {
-      console.log('here')
       return
     }
+    // pass the next id to be used for item fetching
     this.getItems(this.state.items[this.state.items.length - 1].id - 1)
   }
 
@@ -54,7 +53,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.fetching, this.state.items)
     return (
       <div className="App">
         <header className="App-header">
@@ -82,7 +80,14 @@ export default class App extends React.Component {
                 </div>
               </div>
             ))}
-            {this.state.fetching && <p className="Loading">Loading ...</p>}
+            {this.state.fetching && (
+              <p className="Loading">
+                <span role="img" className="Emoji" aria-label="hourglass emoji">
+                  ⏳
+                </span>
+                Loading ...{' '}
+              </p>
+            )}
           </div>
         </header>
       </div>
