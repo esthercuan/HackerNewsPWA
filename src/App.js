@@ -29,28 +29,32 @@ export default class App extends React.Component {
       document.documentElement.offsetHeight
     )
       return
-
-    console.log('scroll!', this.state.items[this.state.items.length - 1])
-    this.setState({ fetching: true })
-
+    console.log(this.state.fetching)
+    if (this.state.fetching) {
+      console.log('here')
+      return
+    }
     this.getItems(this.state.items[this.state.items.length - 1].id - 1)
   }
 
-  getItems = id => {
-    for (let index = 0; index < 250; index++) {
-      getItem(id - index).then(item => {
-        this.setState({ fetching: false })
-        // filter for only items that exist of type story and have a url
-        if (item && item.type === 'story' && !item.deleted && item.url) {
-          this.setState(prevState => ({
-            items: [...prevState.items, item],
-          }))
-        }
-      })
+  getItems = async id => {
+    this.setState({ fetching: true })
+    for (let index = 0; index < 200; index++) {
+      // await allows for us to pause the loops execution
+      let item = await getItem(id - index)
+      // filter for only items that exist of type story and have a url
+      if (item && item.type === 'story' && !item.deleted && item.url) {
+        // render as each item is succesfully recieved
+        this.setState(prevState => ({
+          items: prevState.items.concat(item),
+        }))
+      }
     }
+    this.setState({ fetching: false })
   }
 
   render() {
+    console.log(this.state.fetching, this.state.items)
     return (
       <div className="App">
         <header className="App-header">
@@ -74,10 +78,11 @@ export default class App extends React.Component {
                 </a>
                 <div className="Subtitle">
                   <p className="HN-author">{item.by}</p>
-                  <p className="HN-time">{moment.unix(item.time).format('MMM-DD-YYYY')}</p>
+                  <p className="HN-time">{moment.unix(item.time).format('MMM-DD-YYYY HH:mm A')}</p>
                 </div>
               </div>
             ))}
+            {this.state.fetching && <p className="Loading">Loading ...</p>}
           </div>
         </header>
       </div>
