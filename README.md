@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It features the Hacker News API and fetches the newest stories. 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It features the [Hacker News API](https://github.com/HackerNews/API) and fetches the newest stories. 
 
 This app features: 
 1. Offline capabilities 

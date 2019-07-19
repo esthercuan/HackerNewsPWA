@@ -1,9 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import App from './App'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+jest.mock('./__mocks__/getItem')
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+Enzyme.configure({ adapter: new Adapter() })
+
+describe('App', () => {
+  it('should render correctly in "debug" mode', () => {
+    const component = shallow(<App debug />)
+    expect(component).toMatchSnapshot()
+  })
+})

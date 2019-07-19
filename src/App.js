@@ -15,15 +15,10 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
     getMaxItem().then(id => this.getItems(id))
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
-  }
-
-  handleScroll = () => {
+  _handleScroll = e => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
       document.documentElement.offsetHeight
@@ -55,7 +50,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" onScroll={this._handleScroll}>
         <header className="App-header">
           <h1>Hacker News Feed</h1>
           <a
