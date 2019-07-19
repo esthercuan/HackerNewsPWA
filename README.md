@@ -7,7 +7,6 @@ This app features:
 4. Link out to the story's article 
 5. Uses the Hacker News API 
 6. Timestamps 
-7. Limited Unit tests 
    
 ## Running the app 🚀
 
