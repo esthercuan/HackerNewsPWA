@@ -29,6 +29,7 @@ export default class App extends React.Component {
       document.documentElement.offsetHeight
     )
       return
+    // Do not fetch until we are done loading all elements
     if (this.state.fetching) {
       return
     }
